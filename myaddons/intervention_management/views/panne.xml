@@ -1,0 +1,205 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="panne_list">
+            <field name="name">intervention_management list</field>
+            <field name="model">intervention_management.panne</field>
+            <field name="arch" type="xml">
+                <tree string="Pannes List View" decoration-warning="priority=='primary'"
+                      decoration-danger="priority=='secondary'" decoration-info="priority=='vital'"
+                      decoration-success="priority=='success'">
+                    <field name="id" optional="show"/>
+                    <field name="priority" optional="show"/>
+                    <field name="start_date" optional="show"/>
+
+                    <field name="finish_date" optional="show"/>
+                    <field name="description" optional="show"/>
+                    <field name="station_cods" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit calendar view definition -->
+
+        <record model="ir.ui.view" id="equipment_calendar">
+            <field name="name">intervention_management calendar</field>
+            <field name="model">intervention_management.panne</field>
+            <field name="arch" type="xml">
+                <!--                  <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="instructor_id">-->
+                <calendar string="Session Calendar" date_start="calendar_start_date" date_stop="calendar_finish_date"
+                          color="id">
+                    <field name="id" optional="show"/>
+                    <field name="priority" optional="show"/>
+                    <field name="start_date" optional="show"/>
+
+                    <field name="finish_date" optional="show"/>
+                    <field name="description" optional="show"/>
+                    <field name="station_cods" optional="show"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- explicit kanban view definition -->
+
+        <record model="ir.ui.view" id="panne_session_kanban">
+            <field name="name">intervention_management kanban</field>
+            <field name="model">intervention_management.panne</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="priority">
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <i class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!--                                    title-->
+                                    <group colspan="1">
+                                        <field name="image_64" widget="image" class="oe_avatar" nolabel="1"
+                                               options="{'image_preview': 'image_64'}"/>
+                                    </group>
+                                    <group colspan="4">
+                                        Priority :
+                                        <field name="priority"/>
+                                        Date and Time of start:
+                                        <field name="start_date"/>
+                                        Date and Time of finish:
+                                        <field name="finish_date"/>
+                                        Station Code
+                                        <field name="station_cods"/>
+                                        num :
+                                        <field name="num" widget="progressbar"/>
+                                    </group>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="panne_form">
+            <field name="name">intervention_management form</field>
+            <field name="model">intervention_management.panne</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="previous_state" string="Previous State" type="object"
+                                class="oe_highlight"></button>
+                        <button name="next_state" string="Next State" type="object" class="oe_highlight"></button>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <div class="oe_title">
+                                    <h1>
+                                        <label for="id" class="oe_edit_only"/>
+                                        <field name="id"/>
+                                    </h1>
+                                </div>
+                                <field name="image_64" widget="image" class="oe_avatar"/>
+                            </group>
+                            <group>
+                                <field name="priority"/>
+                                <field name="start_date"/>
+                                <field name="finish_date"/>
+                                <field name="description"/>
+                                <field name="station_cods"/>
+                                <field name="num" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Equipments">
+                                <field name="pannes_equipment"/>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- explicit Search view definition -->
+
+        <record model="ir.ui.view" id="panne_search_view">
+            <field name="name">Panne Search</field>
+            <field name="model">intervention_management.panne</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="id"/>
+                    <field name="priority"/>
+                    <field name="start_date"/>
+                    <field name="description"/>
+                    <field name="station_cods"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="panne_action_window">
+            <field name="name">intervention_management window</field>
+            <field name="res_model">intervention_management.panne</field>
+            <field name="view_mode">tree,form,calendar,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new Panne
+                </p>
+                <p>
+                    any details ...
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <menuitem name="InterMan" id="intervention_management.menu_root"/>
+
+        <!-- menu categories -->
+        $
+        <menuitem name="Panne" id="panne_menu_1" parent="intervention_management.menu_root"
+                  web_icon="panne,static/src/img/icon.jpg"/>
+        <menuitem name="Technicien" id="panne_menu_2" parent="intervention_management.menu_root"
+                  web_icon="panne,static/src/img/icon.jpg"/>
+
+        <!-- actions -->
+
+        <menuitem name="Panne List" string="panne List" id="panne_menu_1_list"
+                  parent="panne_menu_1"
+                  action="panne_action_window"/>
+        <menuitem name="Panne Technicien" string="panne List" id="panne_menu_2_list"
+                  parent="panne_menu_1"
+                  action="panne_action_window"/>
+
+    </data>
+</odoo>
+
+
+

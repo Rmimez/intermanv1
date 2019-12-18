@@ -1,0 +1,152 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="piece_list">
+            <field name="name">intervention_management list</field>
+            <field name="model">intervention_management.piece</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code_piece" optional="show" />
+                    <field name="mark" optional="show" />
+                    <field name="price" optional="show" />
+                    <field name="description" optional="show" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="piece_form">
+            <field name="name">intervention_management form</field>
+            <field name="model">intervention_management.piece</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group colspan="2" col="2">
+                            <group colspan="3" col="3">
+                                <field name="code_piece"/>
+                                <field name="mark"/>
+                                <field name="price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Equipments">
+                                <field name="pieces_equipment"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- explicit kanban view definition -->
+
+        <record model="ir.ui.view" id="piece_session_kanban">
+            <field name="name">intervention_management kanban</field>
+            <field name="model">intervention_management.piece</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="mark">
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <i class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!-- title -->
+                                    Session Code:
+                                    <field name="code_piece"/>
+                                    <br/>
+                                    Piece Mark:
+                                    <field name="mark"/>
+                                    <br/>
+                                    Piece Price:
+                                    <field name="price" widget="monetary"/>
+
+                                    <br/>
+                                    Price:
+                                    <field name="description"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- explicit Search view definition -->
+
+        <record model="ir.ui.view" id="piece_search_view">
+            <field name="name">intervention_management.search</field>
+            <field name="model">intervention_management.piece</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="code_piece"/>
+                    <field name="mark"/>
+                    <field name="price"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="piece_action_window">
+            <field name="name">intervention_management window</field>
+            <field name="res_model">intervention_management.piece</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new Piece
+                </p>
+                <p>
+                    any details...
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <menuitem name="InterMan" id="intervention_management.menu_root"/>
+
+        <!-- menu categories -->
+        $
+        <menuitem name="piece" id="piece_menu_1" parent="intervention_management.menu_root"
+                  web_icon="fa-archive"/>
+
+        <!-- actions -->
+
+        <menuitem name="piece List" string="piece List" id="piece_menu_1_list"
+                  parent="piece_menu_1"
+                  action="piece_action_window"/>
+
+
+    </data>
+</odoo>

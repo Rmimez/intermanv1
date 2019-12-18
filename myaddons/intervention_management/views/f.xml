@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="user_list">
+            <field name="name">intervention_management list</field>
+            <field name="model">intervention_management.user</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="user_id" optional="show"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="user_form">
+            <field name="name">intervention_management form</field>
+            <field name="model">intervention_management.user</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="user_id" optional="show"/>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="user_action_window">
+            <field name="name">intervention_management window</field>
+            <field name="res_model">intervention_management.user</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new Panne
+                </p>
+                <p>
+                    any details ...
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <menuitem name="InterMan" id="intervention_management.menu_root"/>
+
+        <!-- menu categories -->
+        $
+        <menuitem name="User" id="user_menu_1" parent="intervention_management.menu_root"
+                  web_icon="panne,static/src/img/icon.jpg"/>
+
+        <!-- actions -->
+
+        <menuitem name="User List" string="user List" id="user_menu_1_list"
+                  parent="user_menu_1"
+                  action="user_action_window"/>
+
+
+    </data>
+</odoo>
+
+
+

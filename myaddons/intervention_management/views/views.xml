@@ -1,0 +1,60 @@
+<!--<odoo>-->
+<!--  <data>-->
+<!--    &lt;!&ndash; explicit list view definition &ndash;&gt;-->
+
+<!--    <record model="ir.ui.view" id="intervention_management.list">-->
+<!--      <field name="name">intervention_management list</field>-->
+<!--      <field name="model">intervention_management.intervention_management</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="name"/>-->
+<!--          <field name="value"/>-->
+<!--          <field name="value2"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+<!--    &lt;!&ndash; actions opening views on models &ndash;&gt;-->
+
+<!--    <record model="ir.actions.act_window" id="intervention_management.action_window">-->
+<!--      <field name="name">intervention_management window</field>-->
+<!--      <field name="res_model">intervention_management.intervention_management</field>-->
+<!--      <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+
+
+<!--    &lt;!&ndash; server action to the one above &ndash;&gt;-->
+
+<!--    <record model="ir.actions.server" id="intervention_management.action_server">-->
+<!--      <field name="name">intervention_management server</field>-->
+<!--      <field name="model_id" ref="model_intervention_management_intervention_management"/>-->
+<!--      <field name="state">code</field>-->
+<!--      <field name="code">-->
+<!--        action = {-->
+<!--          "type": "ir.actions.act_window",-->
+<!--          "view_mode": "tree,form",-->
+<!--          "res_model": self._name,-->
+<!--        }-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+<!--    &lt;!&ndash; Top menu item &ndash;&gt;-->
+
+<!--    <menuitem name="intervention_management" id="intervention_management.menu_root"/>-->
+
+<!--    &lt;!&ndash; menu categories &ndash;&gt;-->
+<!--    $-->
+<!--    <menuitem name="Menu 1" id="intervention_management.menu_1" parent="intervention_management.menu_root"/>-->
+<!--    <menuitem name="Menu 2" id="intervention_management.menu_2" parent="intervention_management.menu_root"/>-->
+
+<!--    &lt;!&ndash; actions &ndash;&gt;-->
+
+<!--    <menuitem name="List" id="intervention_management.menu_1_list" parent="intervention_management.menu_1"-->
+<!--              action="intervention_management.action_window"/>-->
+<!--    <menuitem name="Server to list" id="intervention_management" parent="intervention_management.menu_2"-->
+<!--              action="intervention_management.action_server"/>-->
+
+<!--  </data>-->
+<!--</odoo>-->

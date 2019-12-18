@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_partner_form_inherit_ca" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.l10n.ca</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <form>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="l10n_ca_pst"/>
+                </xpath>
+                </form>
+            </field>
+        </record>
+
+            <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="contact_action_window">
+            <field name="name">Contacts window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new Equipment
+                </p>
+                <p>
+                    any details ....
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <menuitem name="InterMan" id="intervention_management.menu_root"/>
+
+        <!-- menu categories -->
+        $
+        <menuitem name="contacts" id="contact_menu_1" parent="intervention_management.menu_root"
+                  web_icon="fa-archive"/>
+
+        <!-- actions -->
+
+        <menuitem name="contacts List" string="contacts List" id="contacts_menu_1_list"
+                  parent="contact_menu_1"
+                  action="contact_action_window"/>
+    </data>
+</odoo>

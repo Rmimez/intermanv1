@@ -1,0 +1,151 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="station_list">
+            <field name="name">intervention_management list</field>
+            <field name="model">intervention_management.station</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code_station"  optional="show" />
+                    <field name="location"  optional="show" />
+                    <field name="social_reason"  optional="show" />
+                    <field name="phone"  optional="show" />
+                    <field name="description" optional="show" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="station_form">
+            <field name="name">intervention_management form</field>
+            <field name="model">intervention_management.station</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="code_station"/>
+                            <field name="location"/>
+                            <field name="social_reason"/>
+                            <field name="phone" widget='phone'/>
+                            <field name="description"/>
+                        </group>
+                        <notebook string="Pannes Details">
+                            <page string="Pannes List">
+                                <field name="panne_ids"/>
+                            </page>
+                            <page string="Equipments List">
+                                <field name="equipments_codes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- explicit kanban view definition -->
+
+        <record model="ir.ui.view" id="station_session_kanban">
+            <field name="name">intervention_management kanban</field>
+            <field name="model">intervention_management.station</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="location">
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <i class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!-- title -->
+                                    <field name="code_station"/>
+                                    <br/>
+                                    <field name="location"/>
+                                    <br/>
+                                    <field name="social_reason"/>
+                                    <br/>
+                                    <field name="phone"/>
+                                    <br/>
+                                    <field name="description"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- explicit Search view definition -->
+
+        <record model="ir.ui.view" id="station_search_view">
+            <field name="name">intervention_management.search</field>
+            <field name="model">intervention_management.station</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="code_station"/>
+                    <field name="location"/>
+                    <field name="social_reason"/>
+                    <field name="phone"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="station_action_window">
+            <field name="name">intervention_management window</field>
+            <field name="res_model">intervention_management.station</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new Station
+                </p>
+                <p>
+                    any details....
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <menuitem name="InterMan" id="intervention_management.menu_root"/>
+
+        <!-- menu categories -->
+        $
+        <menuitem name="station" id="station_menu_1" parent="intervention_management.menu_root"
+                  web_icon="fa-archive"/>
+
+        <!-- actions -->
+
+        <menuitem name="station List" string="station List" id="station_menu_1_list"
+                  parent="station_menu_1"
+                  action="station_action_window"/>
+
+
+    </data>
+</odoo>
